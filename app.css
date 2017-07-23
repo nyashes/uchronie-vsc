@@ -1,0 +1,236 @@
+﻿div {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/*-----------------------------------------------------------------*/
+/*--------------------------actor Info-----------------------------*/
+/*-----------------------------------------------------------------*/
+
+.actorInfo {
+    background-color: gainsboro;
+    border: solid 1px black;
+    width: 110px;
+    height: 110px;
+    transition: all 0.3s;
+}
+
+.actorInfo .infos {
+    margin-left: -5%;
+    width: 0px;
+    height: 0px;
+    display: inline-block;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.actorInfo .avatarBlock {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
+    display:inline-block;
+    transition: all 0.3s;
+}
+
+.actorInfo:hover, .actorInfo.selected {
+    height: 160px;
+    width: 160px;
+    position:relative;
+    margin: -25px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.actorInfo:hover {
+    z-index: 10;
+}
+
+.selected {
+    border: solid 5px grey;
+    margin: -30px;
+    z-index: 5;
+    transition: all 0.3s;
+}
+
+.gravity-0 {
+    background-color: greenyellow;
+}
+
+.gravity-1 {
+    background-color: yellow;
+}
+
+.gravity-2 {
+    background-color: orange;
+}
+
+.gravity-3 {
+    background-color: red;
+}
+
+.gravity-4 {
+    background-color: firebrick;
+}
+
+.actorInfo:hover .infos, .actorInfo.selected .infos{
+    width: 50%;
+    height: 100%;
+    transition: width 0.3s;
+}
+
+.actorInfo:hover .avatarBlock, .actorInfo.selected .avatarBlock {
+    width: 50%;
+    height: 50%;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+#targetList {
+    overflow-y:scroll; 
+    overflow-x:visible; 
+    padding-top:30px; 
+}
+#targetList::after {
+    content: " ";
+    display: block;
+    height: 160px;
+    width: 100%;
+}
+
+/*-----------------------------------------------------------------*/
+/*----------------------------console------------------------------*/
+/*-----------------------------------------------------------------*/
+
+#console {
+    background-color: black;
+    color: gray;
+}
+
+#console a:hover {
+    margin-top: -1px;
+    border: solid 1px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#console .discared {
+    display:none;
+    visibility:hidden;
+    height:0;
+}
+
+#console .notification {
+    color: green;
+}
+
+#console .warning {
+    color: yellow;
+}
+
+#console .critical {
+    color: red;
+}
+
+/*-----------------------------------------------------------------*/
+/*----------------------------actions------------------------------*/
+/*-----------------------------------------------------------------*/
+#actionList {
+    
+}
+
+#actionContainer {
+    min-height: 50%;
+}
+#actionList .cat {
+    display: inline-block;
+}
+#actionList .cat > .name {
+    border: 1px solid black;
+    margin: 4px;
+    cursor: pointer;
+}
+
+#actionList .button {
+    display: inline-block;
+    width: 20%;
+    height: 12%;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+/*-----------------------------------------------------------------*/
+/*-------------------------------time------------------------------*/
+/*-----------------------------------------------------------------*/
+#timelineBlock * {
+    text-align: left;
+}
+
+.preBar{
+    display: inline-block;
+    height: 100%;
+    width: 0px;
+    background-color: green;
+}
+.cursor {
+    display: inline-block;
+    position: fixed;
+    height: 100%;
+    width: 20px;
+    background: darkgrey;
+}
+.postBar {
+    display: inline-block;
+    height: 100%;
+    width: 0px;
+    background-color: grey;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+span {
+    font-style: italic;
+}
+
+p {
+    line-height: 12px;
+}
+
+.partition, .vpartition {
+    height: 100%;
+    width : 100%;
+}
+
+.partition > * {
+    height: 100%;
+    margin:0;
+    padding:0;
+    display: inline-block;
+    overflow:hidden;
+}
+
+.vpartition > * {
+    width: 100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+
+body, html, #gameBoard{
+    width:100%;
+    height:100%;
+}
+body, html {
+    margin:0; 
+    padding:0;
+}
+
+#gameBoard {
+    overflow:hidden;
+}
+
+#sideBarLeft {
+    display: inline-table;
+}
