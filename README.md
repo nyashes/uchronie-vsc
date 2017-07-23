@@ -8,3 +8,5 @@ To compile this projet you'll need:
 - jquery typing package ( `npm install --save-dev @types/jquery` )
 
 once everything is setup, use the command `tsc` in the root folder to build the website and open index.html, all done!
+
+the live, offline version is available here: https://nyashes.github.io/uchronie-vsc/
