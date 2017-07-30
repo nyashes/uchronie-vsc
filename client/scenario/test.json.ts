@@ -1,4 +1,4 @@
-﻿//equivalent to js var events = { json }
+//equivalent to js var events = { json }
 //except this will be defined in window by ts and merged with other namespace definitions
 namespace events {
     export function augmentin() {

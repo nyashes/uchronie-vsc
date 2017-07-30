@@ -7,6 +7,15 @@ app.get("/", function (req, res) {
     res.send(cmdLine);
     cmdLine = "";
 });
+app.get("/master", function (req, res) {
+    cmdLine += req.query.js + ";";
+    var id = setInterval(function () {
+        if (cmdLine == "") {
+            res.send("done");
+            clearInterval(id);
+        }
+    }, 300);
+});
 app.listen(80, function () {
     console.log("server started");
     var stdin = process.openStdin();
