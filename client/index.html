@@ -11,6 +11,8 @@
     <script type="text/javascript" src="objectModel/gameState.js"></script>
     <script type="text/javascript" src="objectModel/gameEvent.js"></script>
 
+    <script type="text/javascript" src="networking/networking.js"></script>
+
     <script type="text/javascript" src="controllers/mainController.js"></script>
 
     <!-- controllers -->
@@ -27,8 +29,14 @@
     <script type="text/javascript" src="app.js"></script>
 
     <script type="text/javascript">
-        jQuery(function () { loadAllModel("scenario/test.json.js", function () { makePageLayout(jQuery("body")); }); });
-        startListener();
+        if (window.location.href.endsWith("master")) {
+            jQuery(function () { loadAllModel("scenario/master.json.js", function () { makePageLayout(jQuery("body")); }); });
+        }
+        else {
+            jQuery(function () { loadAllModel("scenario/test.json.js", function () { makePageLayout(jQuery("body")); }); });
+            networking.startListener();
+        }
+        
     </script>
 </head>
 <body>

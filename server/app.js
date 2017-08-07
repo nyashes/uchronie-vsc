@@ -2,8 +2,10 @@
 exports.__esModule = true;
 var express = require("express");
 var app = express();
-var cmdLine;
+var cmdLine = "";
 app.get("/", function (req, res) {
+    if (cmdLine != "")
+        console.log(cmdLine);
     res.send(cmdLine);
     cmdLine = "";
 });

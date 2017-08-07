@@ -46,6 +46,7 @@ var baseListController = (function (_super) {
         this.element.append(newElement);
     };
     baseListController.prototype.push = function (item) {
+        this.model.push(item);
         this.pushItem(item, true);
     };
     return baseListController;

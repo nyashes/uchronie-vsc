@@ -12,16 +12,16 @@ var __extends = (this && this.__extends) || (function () {
 //except this will be defined in window by ts and merged with other namespace definitions
 var events;
 (function (events) {
-    function augmentin() {
-        return new objectModel.gameEvent(function () { return mainController.ressources().add('morphine', 50); }, "livraison d'augmentin", "notification");
+    function augmentin(at) {
+        return new objectModel.gameEvent(function () { return mainController.ressources().add('morphine', 50); }, "livraison d'augmentin", "notification", at);
     }
     events.augmentin = augmentin;
     ;
-    function scream() {
+    function scream(at) {
         var list = mainController.actors().element.children();
         var picked = Math.ceil((list.length - 1) * Math.random() + 0.001);
         var name = jQuery(list.get(picked)).data().name;
-        return new objectModel.gameEvent(function () { return mainController.actors().select(name); }, name + " cri", "warning");
+        return new objectModel.gameEvent(function () { return mainController.actors().select(name); }, name + " cri", "warning", at);
     }
     events.scream = scream;
     ;
@@ -80,102 +80,103 @@ var localObjectModel;
 })(localObjectModel || (localObjectModel = {}));
 //load function, called after all ts load but before html load
 //errors here are considered fatal and will prevent application load
-this({
-    //preload: function () { alert("pre"); },
-    //postload: function () { alert("post"); },
-    /*action list*/
-    actionList: [
-        {
-            name: "soin",
-            actionList: [
-                {
-                    name: "ausculter (complet)",
-                    signature: ["target", "targetFrame"],
-                    delegate: function (frame) {
-                        alert("blessures: " + JSON.stringify(this.injuries.current().map(function (x) { return x.name; })));
-                        frame.updateVisual();
-                    }
-                },
-                {
-                    name: "bander",
-                    signature: ["target"],
-                    delegate: function () {
-                        var newar = this.injuries.get(objectModel.currentTime - 1).filter(function (x) { return x != injuries.hemoragy; });
-                        this.injuries.setKeyFrame(objectModel.currentTime, newar);
-                        mainController.submodules["ressourceListController"]["sideBarLeft"].add("pansements", -1);
-                        alert("bandage appliqué");
-                    }
-                },
-                {
-                    name: "perfusion augmentin",
-                    signature: ["target"],
-                    delegate: function () {
-                        if (this.injuries.current().filter(function (x) { return x == injuries.perfusion; }).length > 0) {
-                            var newar = this.injuries.get(objectModel.currentTime - 1).filter(function (x) { return x != injuries.perfusion; });
-                            this.injuries.setKeyFrame(objectModel.currentTime, newar);
-                            alert("perfusion retirée");
+if (typeof this === "function")
+    this({
+        //preload: function () { alert("pre"); },
+        postload: function () { networking.startListener(); },
+        /*action list*/
+        actionList: [
+            {
+                name: "soin",
+                actionList: [
+                    {
+                        name: "ausculter (complet)",
+                        signature: ["target", "targetFrame"],
+                        delegate: function (frame) {
+                            alert("blessures: " + JSON.stringify(this.injuries.current().map(function (x) { return x.name; })));
+                            frame.updateVisual();
                         }
-                        else {
-                            var newar = this.injuries.get(objectModel.currentTime - 1).filter(function (x) { return x != injuries.bactery; });
-                            newar.push(injuries.perfusion);
-                            var patient = this;
+                    },
+                    {
+                        name: "bander",
+                        signature: ["target"],
+                        delegate: function () {
+                            var newar = this.injuries.get(objectModel.currentTime - 1).filter(function (x) { return x != injuries.hemoragy; });
                             this.injuries.setKeyFrame(objectModel.currentTime, newar);
-                            mainController.submodules["ressourceListController"]["sideBarLeft"].add("perche", -1);
-                            alert("perfusion appliquée");
+                            mainController.submodules["ressourceListController"]["sideBarLeft"].add("pansements", -1);
+                            alert("bandage appliqué");
+                        }
+                    },
+                    {
+                        name: "perfusion augmentin",
+                        signature: ["target"],
+                        delegate: function () {
+                            if (this.injuries.current().filter(function (x) { return x == injuries.perfusion; }).length > 0) {
+                                var newar = this.injuries.get(objectModel.currentTime - 1).filter(function (x) { return x != injuries.perfusion; });
+                                this.injuries.setKeyFrame(objectModel.currentTime, newar);
+                                alert("perfusion retirée");
+                            }
+                            else {
+                                var newar = this.injuries.get(objectModel.currentTime - 1).filter(function (x) { return x != injuries.bactery; });
+                                newar.push(injuries.perfusion);
+                                var patient = this;
+                                this.injuries.setKeyFrame(objectModel.currentTime, newar);
+                                mainController.submodules["ressourceListController"]["sideBarLeft"].add("perche", -1);
+                                alert("perfusion appliquée");
+                            }
                         }
                     }
-                }
-            ]
-        },
-        {
-            name: "ordre",
-            actionList: [
-                {
-                    name: "donner des ordres",
-                    signature: ["target"],
-                    delegate: function () { alert(this.name + " a ausculté : " + this.name); }
-                }
-            ]
-        }
-    ],
-    /*pre console test data*/
-    console: [
-        new objectModel.gameEvent(function () {
-            alert('demande de livraison automatique');
-            mainController.submodules["ressourceListController"]["sideBarLeft"].add('morphine', 50);
-        }, "plus de morphine", "warning"),
-        new objectModel.gameEvent(function () {
-            alert('5 blessés arrivent');
-        }, "message du PMA", "notification"),
-        new objectModel.gameEvent(function () {
-            mainController.submodules["targetListController"]["targetList"].select('Blessé 1');
-        }, "Blessé 1 est en danger!", "critical")
-    ],
-    /*ressources seed (you can only define them here)*/
-    sideBarLeft: [
-        new objectModel.ressource("couverture", 5, "unités"),
-        new objectModel.ressource("pansements", 100, "unités"),
-        new objectModel.ressource("oxygène", 500, "L"),
-        new objectModel.ressource("morphine", 50, "mL"),
-        new objectModel.ressource("augmentin", 50, "moles"),
-        new objectModel.ressource("perche", 3, "unités")
-    ],
-    /*actors*/
-    targetList: [
-        new objectModel.doctor({ name: "Joueur", infos: ["médecin leader"], avatarUrl: "./images/victeams2.png" }),
-        //use redefined nurses instead of default
-        new localObjectModel.nurse({
-            name: "Infirmier julien",
-            infos: ["Efficace en pansements"],
-            avatarUrl: "./images/victeams2.png",
-            //make him start with more bandAidSkill than default nurse (50 in this model)
-            constructor: function () { this.bandAidSkill.setKeyFrame(0, 80); }
-        }),
-        new localObjectModel.nurse({ name: "Auxiliaire jacob", infos: [""], avatarUrl: "./images/victeams2.png" }),
-        new localObjectModel.nurse({ name: "Auxiliaire julie", infos: [], avatarUrl: "./images/victeams1.png" }),
-        new objectModel.patient({ name: "Blessé 1", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
-        new objectModel.patient({ name: "Blessé 2", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
-        new objectModel.patient({ name: "Blessé 3", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
-        new objectModel.patient({ name: "Blessé 4", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
-    ]
-});
+                ]
+            },
+            {
+                name: "ordre",
+                actionList: [
+                    {
+                        name: "donner des ordres",
+                        signature: ["target"],
+                        delegate: function () { alert(this.name + " a ausculté : " + this.name); }
+                    }
+                ]
+            }
+        ],
+        /*pre console test data*/
+        console: [
+            new objectModel.gameEvent(function () {
+                alert('demande de livraison automatique');
+                mainController.submodules["ressourceListController"]["sideBarLeft"].add('morphine', 50);
+            }, "plus de morphine", "warning"),
+            new objectModel.gameEvent(function () {
+                alert('5 blessés arrivent');
+            }, "message du PMA", "notification"),
+            new objectModel.gameEvent(function () {
+                mainController.submodules["targetListController"]["targetList"].select('Blessé 1');
+            }, "Blessé 1 est en danger!", "critical")
+        ],
+        /*ressources seed (you can only define them here)*/
+        sideBarLeft: [
+            new objectModel.ressource("couverture", 5, "unités"),
+            new objectModel.ressource("pansements", 100, "unités"),
+            new objectModel.ressource("oxygène", 500, "L"),
+            new objectModel.ressource("morphine", 50, "mL"),
+            new objectModel.ressource("augmentin", 50, "moles"),
+            new objectModel.ressource("perche", 3, "unités")
+        ],
+        /*actors*/
+        targetList: [
+            new objectModel.doctor({ name: "Joueur", infos: ["médecin leader"], avatarUrl: "./images/victeams2.png" }),
+            //use redefined nurses instead of default
+            new localObjectModel.nurse({
+                name: "Infirmier julien",
+                infos: ["Efficace en pansements"],
+                avatarUrl: "./images/victeams2.png",
+                //make him start with more bandAidSkill than default nurse (50 in this model)
+                constructor: function () { this.bandAidSkill.setKeyFrame(0, 80); }
+            }),
+            new localObjectModel.nurse({ name: "Auxiliaire jacob", infos: [""], avatarUrl: "./images/victeams2.png" }),
+            new localObjectModel.nurse({ name: "Auxiliaire julie", infos: [], avatarUrl: "./images/victeams1.png" }),
+            new objectModel.patient({ name: "Blessé 1", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
+            new objectModel.patient({ name: "Blessé 2", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
+            new objectModel.patient({ name: "Blessé 3", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
+            new objectModel.patient({ name: "Blessé 4", infos: ["nom: inconnu", "blessures: inconnu"], avatarUrl: "./images/victim.png" }),
+        ]
+    });

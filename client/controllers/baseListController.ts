@@ -31,6 +31,7 @@
         this.element.append(newElement);
     }
     public push(item: T) {
+        this.model.push(item);
         this.pushItem(item, true);
     }
 }

@@ -20,7 +20,7 @@ var actionController = (function (_super) {
             var parameters = [];
             var player = mainController.currentPlayer();
             var targetFrame = mainController.currentTarget();
-            var target = targetFrame.model;
+            var target = targetFrame != undefined ? targetFrame.model : undefined;
             for (var _i = 0, _a = _this.model.signature; _i < _a.length; _i++) {
                 var item = _a[_i];
                 parameters.push(eval(item));

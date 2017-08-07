@@ -1,22 +1,24 @@
 //equivalent to js var events = { json }
 //except this will be defined in window by ts and merged with other namespace definitions
 namespace events {
-    export function augmentin() {
+    export function augmentin(at?: number) {
         return new objectModel.gameEvent(
             () => mainController.ressources().add('morphine', 50),
             "livraison d'augmentin",
-            "notification"
+            "notification",
+            at
         );
     };
 
-    export function scream() {
+    export function scream(at?: number) {
         let list = mainController.actors().element.children();
         let picked = Math.ceil((list.length - 1) * Math.random() + 0.001);
         let name = jQuery(list.get(picked)).data().name;
         return new objectModel.gameEvent(
             () => mainController.actors().select(name),
             name + " cri",
-            "warning"
+            "warning",
+            at
         );
     };
 }
@@ -73,9 +75,9 @@ namespace localObjectModel {
 
 //load function, called after all ts load but before html load
 //errors here are considered fatal and will prevent application load
-this({
+if (typeof this === "function") this({
     //preload: function () { alert("pre"); },
-    //postload: function () { alert("post"); },
+    postload: function () { networking.startListener(); },
 
     /*action list*/
     actionList: [

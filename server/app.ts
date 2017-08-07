@@ -2,9 +2,11 @@ import * as express from 'express';
 
 let app = express();
 
-let cmdLine: string;
+let cmdLine: string = "";
 
 app.get("/", function(req, res) {
+    if (cmdLine != "")
+        console.log(cmdLine);
     res.send(cmdLine);
     cmdLine = "";
 });

@@ -6,7 +6,7 @@
 
             var player = mainController.currentPlayer();
             var targetFrame = mainController.currentTarget();
-            var target = targetFrame.model;
+            var target = targetFrame != undefined ? targetFrame.model : undefined;
             for (let item of this.model.signature)
                 parameters.push(eval(item));
             this.model.delegate.apply(parameters.shift(), parameters);
