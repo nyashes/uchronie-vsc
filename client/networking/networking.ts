@@ -6,7 +6,7 @@ class networking {
     public static startListener() {
         setInterval(() => {
             jQuery.getScript(this.hostName);
-        }, 1000);
+                }, 1000);
     }
 
     public static remote(fun: () => any, capture?: any) {
@@ -26,14 +26,14 @@ class networking {
             this.sendLock = true;
 
             return jQuery.get(this.hostName + "/master?js=" + encodeURI(body))
-            .fail(function(dum, error) {
-                console.error("function() {" + body + "}\n" +"failed with: " + error.toString());
+            .fail((dum, error) => {
+                console.error("function() {" + body + "}\n" +"failed with: " + error);
 
                 this.queue = body + ";" + this.queue;
                 this.sendLock = false;
                 this.processQueue();
             })
-            .done(function() {
+            .done(() => {
                 this.sendLock = false;
                 this.processQueue();
             });

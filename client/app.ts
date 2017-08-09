@@ -102,5 +102,5 @@ function loadAllModel(jsonFile, done?) {
     jQuery.ajax({
         url: jsonFile,
         dataType: "text"
-    }).done((data) => { ((data) => { eval(data); }).call(callback, data) });
+    }).done((data) => { ((data) => { eval(data);  }).call(callback, data) });
 }

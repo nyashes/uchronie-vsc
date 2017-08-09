@@ -21,7 +21,7 @@ namespace events {
             at
         );
     };
-}
+} eval("window.events = events");
 
 namespace injuries {
     export var hemoragy = {
@@ -60,7 +60,7 @@ namespace injuries {
             }
         }
     };
-}
+} eval("window.injuries = injuries");
 
 //define default stats for nurses in this scenario
 namespace localObjectModel {
@@ -75,7 +75,7 @@ namespace localObjectModel {
 
 //load function, called after all ts load but before html load
 //errors here are considered fatal and will prevent application load
-if (typeof this === "function") this({
+if (this != window) this({
     //preload: function () { alert("pre"); },
     postload: function () { networking.startListener(); },
 

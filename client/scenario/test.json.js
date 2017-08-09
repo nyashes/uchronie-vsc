@@ -26,6 +26,7 @@ var events;
     events.scream = scream;
     ;
 })(events || (events = {}));
+eval("window.events = events");
 var injuries;
 (function (injuries) {
     injuries.hemoragy = {
@@ -63,6 +64,7 @@ var injuries;
         }
     };
 })(injuries || (injuries = {}));
+eval("window.injuries = injuries");
 //define default stats for nurses in this scenario
 var localObjectModel;
 (function (localObjectModel) {
@@ -80,7 +82,7 @@ var localObjectModel;
 })(localObjectModel || (localObjectModel = {}));
 //load function, called after all ts load but before html load
 //errors here are considered fatal and will prevent application load
-if (typeof this === "function")
+if (this != window)
     this({
         //preload: function () { alert("pre"); },
         postload: function () { networking.startListener(); },

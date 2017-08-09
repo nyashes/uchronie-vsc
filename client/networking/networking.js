@@ -15,6 +15,7 @@ var networking = (function () {
         return this.remoteString(body);
     };
     networking.remoteString = function (body) {
+        var _this = this;
         if (this.sendLock) {
             this.enqueue(body);
             return null;
@@ -23,14 +24,14 @@ var networking = (function () {
             this.sendLock = true;
             return jQuery.get(this.hostName + "/master?js=" + encodeURI(body))
                 .fail(function (dum, error) {
-                console.error("function() {" + body + "}\n" + "failed with: " + error.toString());
-                this.queue = body + ";" + this.queue;
-                this.sendLock = false;
-                this.processQueue();
+                console.error("function() {" + body + "}\n" + "failed with: " + error);
+                _this.queue = body + ";" + _this.queue;
+                _this.sendLock = false;
+                _this.processQueue();
             })
                 .done(function () {
-                this.sendLock = false;
-                this.processQueue();
+                _this.sendLock = false;
+                _this.processQueue();
             });
         }
     };
