@@ -15,10 +15,48 @@ this({
                     delegate: function () {
                         mainController.events().push(events.augmentin());
                         networking.remote(function() {
-                            console.log(mainController.events());
-                            console.log(events.augmentin(this));
                             mainController.events().push(events.augmentin(this));
                         }, objectModel.currentTime);
+                    }
+                },
+                {
+                    name: "cri aléatoire",
+                    signature: [],
+                    delegate: function () {
+                        mainController.events().push(events.scream());
+                        networking.remote(function() {
+                            mainController.events().push(events.scream(this));
+                        }, objectModel.currentTime);
+                    }
+                },
+                {
+                    name: "hémoragie sur cible",
+                    signature: [],
+                    delegate: function () {
+                        networking.remote(function() {
+                            let patient = (mainController.actors().model[this[1]] as objectModel.patient);
+                            patient.injuries.set(this[0], (cur) => {cur.push(injuries.hemoragy); return cur});
+                        }, [objectModel.currentTime, mainController.actors().model.indexOf(mainController.currentTarget().model)]);
+                    }
+                },
+                {
+                    name: "infection sur cible",
+                    signature: [],
+                    delegate: function () {
+                        networking.remote(function() {
+                            let patient = (mainController.actors().model[this[1]] as objectModel.patient);
+                            patient.injuries.set(this[0], (cur) => {cur.push(injuries.bactery); return cur});
+                        }, [objectModel.currentTime, mainController.actors().model.indexOf(mainController.currentTarget().model)]);
+                    }
+                },
+                {
+                    name: "message du PMA",
+                    signature: [],
+                    delegate: function () {
+                        networking.remote(function() {
+                            let patient = (mainController.actors().model[this[1]] as objectModel.patient);
+                            patient.injuries.set(this[0], (cur) => {cur.push(injuries.bactery); return cur});
+                        }, [objectModel.currentTime, prompt("message?")]);
                     }
                 },
             ]

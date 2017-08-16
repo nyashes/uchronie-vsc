@@ -16,14 +16,19 @@ var gameEventController = (function (_super) {
     gameEventController.prototype.init = function () {
         var _this = this;
         this.element.unbind('click').bind('click', function () {
-            _this.model.action();
-            _this.model.eventClass.setKeyFrame(objectModel.currentTime, 'discared');
+            if (_this.model.eventClass.current()) {
+                _this.model.action();
+                _this.model.eventClass.setKeyFrame(objectModel.currentTime, 'discared');
+            }
         });
         this.element.text(this.model.text);
         objectModel.guiTick.push(function () {
             _this.element.removeClass();
             _this.element.addClass(_this.model.eventClass.current());
         });
+        jQuery("body").find(".timebar").append('<div style="position:absolute; background-color:red; bottom:0px; width:20px; height:50px; left:' +
+            this.model.eventClass.stateStack[0].t +
+            'px" class="tooltip"><div class="tooltiptext">' + this.model.text + '</div></div>');
     };
     return gameEventController;
 }(baseController));

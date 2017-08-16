@@ -11,9 +11,9 @@ namespace events {
     };
 
     export function scream(at?: number) {
-        let list = mainController.actors().element.children();
-        let picked = Math.ceil((list.length - 1) * Math.random() + 0.001);
-        let name = jQuery(list.get(picked)).data().name;
+        let list = mainController.actors().model;
+        let picked = Math.ceil((list.length - 1) * Math.random());
+        let name = list[picked].name;
         return new objectModel.gameEvent(
             () => mainController.actors().select(name),
             name + " cri",

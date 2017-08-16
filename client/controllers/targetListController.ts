@@ -1,6 +1,6 @@
 ﻿class targetListController extends baseListController<objectModel.animatedActor> {
     public select(name: string) {
-        let toSelect = this.element.children("#" + name).data("controller");
+        let toSelect = this.element.children("[id='" + name + "']").data("controller");
         toSelect.select();
     }
 }

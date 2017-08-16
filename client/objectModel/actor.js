@@ -32,15 +32,16 @@ var objectModel;
     var animatedActor = (function (_super) {
         __extends(animatedActor, _super);
         function animatedActor(base) {
-            var _this = _super.call(this, "") || this;
+            var _this = _super.call(this, base["name"]) || this;
             _this.defiance = new objectModel.nonDeterministicState(0);
             for (var prop in base)
                 _this[prop] = base[prop];
             if (_this["constructor"]) {
                 var ctor_1 = function () {
-                    _this["constructor"].call(_this);
+                    var tmp = _this["constructor"];
                     delete _this["constructor"];
                     objectModel.guiTick.splice(objectModel.guiTick.indexOf(ctor_1), 1);
+                    tmp.call(_this);
                 };
                 objectModel.guiTick.push(ctor_1);
             }

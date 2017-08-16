@@ -40,7 +40,7 @@
     }
 
     export class nonDeterministicState<T> implements INonDeterministicState<T> {
-        private stateStack: timedValue<T>[] = [];
+        public stateStack: timedValue<T>[] = [];
 
         public current(): T { return this.get(objectModel.currentTime);}
 

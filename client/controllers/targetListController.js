@@ -14,7 +14,7 @@ var targetListController = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     targetListController.prototype.select = function (name) {
-        var toSelect = this.element.children("#" + name).data("controller");
+        var toSelect = this.element.children("[id='" + name + "']").data("controller");
         toSelect.select();
     };
     return targetListController;

@@ -24,16 +24,17 @@
         infos: string[];
         avatarUrl: string;
         constructor(base: any) {
-            super("");
+            super(base["name"]);
 
             for (var prop in base)
                 this[prop] = base[prop];
 
             if (this["constructor"]) {
                 let ctor = () => {
-                    this["constructor"].call(this);
+                    let tmp = this["constructor"];
                     delete this["constructor"];
                     objectModel.guiTick.splice(objectModel.guiTick.indexOf(ctor), 1);
+                    tmp.call(this);
                 };
                 objectModel.guiTick.push(ctor);
             }

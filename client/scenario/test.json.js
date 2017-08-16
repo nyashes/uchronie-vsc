@@ -18,9 +18,9 @@ var events;
     events.augmentin = augmentin;
     ;
     function scream(at) {
-        var list = mainController.actors().element.children();
-        var picked = Math.ceil((list.length - 1) * Math.random() + 0.001);
-        var name = jQuery(list.get(picked)).data().name;
+        var list = mainController.actors().model;
+        var picked = Math.ceil((list.length - 1) * Math.random());
+        var name = list[picked].name;
         return new objectModel.gameEvent(function () { return mainController.actors().select(name); }, name + " cri", "warning", at);
     }
     events.scream = scream;
