@@ -1,9 +1,9 @@
 # uchronie-vsc
-visual studio code version of ![nyashes/uchronie](https://github.com/nyashes/uchronie)
+visual studio code version of nyashes/uchronie (https://github.com/nyashes/uchronie)
 
 To compile this projet you'll need:
 
-- node package manager (included with ![visual studio code](https://code.visualstudio.com/) )
+- node package manager (included with visual studio code (https://code.visualstudio.com/) )
 - tsc compiler ( `npm install -g typescript` )
 - jquery typing package ( `npm install --save-dev @types/jquery` )
 
